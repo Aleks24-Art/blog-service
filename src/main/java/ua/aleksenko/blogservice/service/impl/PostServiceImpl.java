@@ -16,11 +16,12 @@ import ua.aleksenko.blogservice.util.UserUtils;
 public class PostServiceImpl implements PostService {
 
   private final PostRepository postRepository;
+  private final UserUtils userUtils;
 
   @Transactional
   public Post savePost(Post post) {
     post.setDate(new Date());
-    post.setPostedBy(UserUtils.getUserName());
+    post.setPostedBy(userUtils.getUserName());
 
     return postRepository.save(post);
   }

@@ -5,7 +5,7 @@ import ua.aleksenko.blogservice.model.entity.Comment;
 
 public interface CommentService {
 
-  Comment createComment(Long postId, String postedBy, String content);
+  Comment createComment(Long postId, String content);
 
   List<Comment> getPostComments(Long postId);
 

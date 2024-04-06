@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ua.aleksenko.blogservice.model.entity.Comment;
 import ua.aleksenko.blogservice.service.CommentService;
-import ua.aleksenko.blogservice.util.UserUtils;
 
 @RestController
 @RequestMapping("/api/v1/comment")
@@ -27,7 +26,7 @@ public class CommentController {
   @PostMapping("/create")
   @ResponseStatus(HttpStatus.CREATED)
   public Comment createComment(@RequestParam Long postId, @RequestBody String content) {
-    return commentService.createComment(postId, UserUtils.getUserName(), content);
+    return commentService.createComment(postId, content);
   }
 
   @GetMapping("/comments/{postId}")

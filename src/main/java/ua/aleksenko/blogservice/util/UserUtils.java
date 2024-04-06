@@ -1,9 +1,9 @@
 package ua.aleksenko.blogservice.util;
 
-import lombok.experimental.UtilityClass;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
-@UtilityClass
+@Component
 public class UserUtils {
 
   public String getUserName() {
