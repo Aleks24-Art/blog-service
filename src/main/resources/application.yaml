@@ -10,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 token-issuer:
   base-url: ${TOKEN_ISSUER_BASE_URL:http://localhost:8092}
   token-validation-endpoint: ${TOKEN_VALIDATION_ENDPOINT:/api/v1/token/validate}

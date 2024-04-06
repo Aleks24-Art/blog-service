@@ -99,9 +99,10 @@ class PostControllerTest {
 
     when(postService.getPostByIdViewCount(postId)).thenReturn(post);
 
-    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/post/view-count/{id}", postId)
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON))
+    MvcResult mvcResult = mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/v1/post/view-count/{id}", postId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
         .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
@@ -146,9 +147,10 @@ class PostControllerTest {
     post.setId(postId);
     post.setLikeCount(1);
 
-    MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/post/like/{id}", postId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+    MvcResult mvcResult = mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/v1/post/like/{id}", postId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
         .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
