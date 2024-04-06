@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ApiError {
 
-    private int code;
+  private int code;
 
-    private String message;
+  private String message;
 }

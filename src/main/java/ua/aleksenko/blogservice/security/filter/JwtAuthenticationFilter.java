@@ -33,51 +33,52 @@ import ua.aleksenko.blogservice.service.TokenService;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final int TOKEN_START_INDEX = 7;
+  private static final int TOKEN_START_INDEX = 7;
 
-    private final TokenService tokenService;
-    private final ObjectMapper objectMapper;
+  private final TokenService tokenService;
+  private final ObjectMapper objectMapper;
 
-    @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader(AUTHORIZATION);
+  @Override
+  protected void doFilterInternal(@NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain) throws ServletException, IOException {
+    String authHeader = request.getHeader(AUTHORIZATION);
 
-        if (Objects.isNull(authHeader) || !authHeader.trim().startsWith("Bearer")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String token = authHeader.trim().substring(TOKEN_START_INDEX);
-
-        try {
-            tokenService.validateExpirationDate(token);
-            tokenService.validateToken(token);
-        } catch (VerificationTokenException | TokenExpiredException | JWTDecodeException e1) {
-	        log.error(e1.getMessage());
-	        response.setStatus(UNAUTHORIZED.value());
-            response.getWriter().write(convertErrorToJson(UNAUTHORIZED, e1.getMessage()));
-            return;
-        } catch (Exception e2) {
-			log.error(e2.getMessage());
-            response.setStatus(INTERNAL_SERVER_ERROR.value());
-            response.getWriter().write(convertErrorToJson(INTERNAL_SERVER_ERROR, e2.getMessage()));
-            return;
-        }
-
-        User user = new User(token);
-
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                user, null, user.getAuthorities()
-        );
-        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        filterChain.doFilter(request, response);
+    if (Objects.isNull(authHeader) || !authHeader.trim().startsWith("Bearer")) {
+      filterChain.doFilter(request, response);
+      return;
     }
 
-    private String convertErrorToJson(HttpStatus status, String errorMessage) throws JsonProcessingException {
-        log.error("Validation token error: {}", errorMessage);
-        return objectMapper.writeValueAsString(new ApiError(status.value(), errorMessage));
+    String token = authHeader.trim().substring(TOKEN_START_INDEX);
+
+    try {
+      tokenService.validateExpirationDate(token);
+      tokenService.validateToken(token);
+    } catch (VerificationTokenException | TokenExpiredException | JWTDecodeException e1) {
+      log.error(e1.getMessage());
+      response.setStatus(UNAUTHORIZED.value());
+      response.getWriter().write(convertErrorToJson(UNAUTHORIZED, e1.getMessage()));
+      return;
+    } catch (Exception e2) {
+      log.error(e2.getMessage());
+      response.setStatus(INTERNAL_SERVER_ERROR.value());
+      response.getWriter().write(convertErrorToJson(INTERNAL_SERVER_ERROR, e2.getMessage()));
+      return;
     }
+
+    User user = new User(token);
+
+    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+        user, null, user.getAuthorities()
+    );
+    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+    SecurityContextHolder.getContext().setAuthentication(authToken);
+    filterChain.doFilter(request, response);
+  }
+
+  private String convertErrorToJson(HttpStatus status, String errorMessage)
+      throws JsonProcessingException {
+    log.error("Validation token error: {}", errorMessage);
+    return objectMapper.writeValueAsString(new ApiError(status.value(), errorMessage));
+  }
 }

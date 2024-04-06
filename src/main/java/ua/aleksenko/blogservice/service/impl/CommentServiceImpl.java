@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
   }
 
   public List<Comment> getPostComments(Long postId) {
-   return commentRepository.findByPostId(postId);
+    return commentRepository.findByPostId(postId);
   }
 
 }

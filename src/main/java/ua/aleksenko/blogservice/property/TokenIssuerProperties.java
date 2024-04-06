@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "token-issuer")
 public class TokenIssuerProperties {
 
-    private String baseUrl;
-    private String tokenValidationEndpoint;
+  private String baseUrl;
+  private String tokenValidationEndpoint;
 }

@@ -50,6 +50,6 @@ public class PostController {
   @PutMapping("/like/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void likePost(@PathVariable Long id) {
-     postService.likePost(id);
+    postService.likePost(id);
   }
 }

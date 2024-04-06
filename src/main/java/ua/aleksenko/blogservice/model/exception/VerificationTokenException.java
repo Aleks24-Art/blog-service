@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class VerificationTokenException extends RuntimeException {
 
-    public VerificationTokenException(String message) {
-        super(message);
-    }
+  public VerificationTokenException(String message) {
+    super(message);
+  }
 }
