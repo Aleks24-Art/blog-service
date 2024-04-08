@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import ua.aleksenko.blogservice.selenium.pages.LoginPage;
 
 
 public class EditProfileTest {
@@ -33,13 +34,14 @@ public class EditProfileTest {
   @SneakyThrows
   @Test
   public void profile() {
+    // Init login page via Page Object Pattern
+    LoginPage loginPage = new LoginPage(driver);
+
     driver.get("http://localhost:4200/login");
     driver.manage().window().setSize(new Dimension(1936, 1056));
-    driver.findElement(By.name("username")).click();
-    driver.findElement(By.name("username")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.name("password")).click();
-    driver.findElement(By.name("password")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.cssSelector(".field:nth-child(3) > input")).click();
+    loginPage.getUserName().click();
+    loginPage.getUserName().sendKeys("aleks.artem24@gmail.com");
+    loginPage.getPassword().click();
     {
       WebElement element = driver.findElement(
           By.cssSelector(".mdc-button:nth-child(5) > .mat-mdc-button-touch-target"));

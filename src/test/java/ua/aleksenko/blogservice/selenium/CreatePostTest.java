@@ -17,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ua.aleksenko.blogservice.selenium.pages.LoginPage;
 
 public class CreatePostTest {
 
@@ -37,15 +38,16 @@ public class CreatePostTest {
   @SneakyThrows
   @Test
   public void createPost() {
+    // Init login page via Page Object Pattern
+    LoginPage loginPage = new LoginPage(driver);
+
     final String postName = UUID.randomUUID().toString();
 
     driver.get("http://localhost:4200/login");
-    driver.manage().window().setSize(new Dimension(968, 1039));
-    driver.findElement(By.name("username")).click();
-    driver.findElement(By.name("username")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.name("password")).click();
-    driver.findElement(By.name("password")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.cssSelector(".field:nth-child(3) > input")).click();
+    driver.manage().window().setSize(new Dimension(1936, 1056));
+    loginPage.getUserName().click();
+    loginPage.getUserName().sendKeys("aleks.artem24@gmail.com");
+    loginPage.getPassword().click();
     {
       WebElement element = driver.findElement(By.cssSelector(".field:nth-child(3) > input"));
       Actions builder = new Actions(driver);

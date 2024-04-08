@@ -10,6 +10,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import ua.aleksenko.blogservice.selenium.pages.LoginPage;
 
 public class LoginTest {
 
@@ -29,16 +30,17 @@ public class LoginTest {
 
   @Test
   public void login() {
+    // Init login page via Page Object Pattern
+    LoginPage loginPage = new LoginPage(driver);
+
     driver.get("http://localhost:4200/login");
     driver.manage().window().setSize(new Dimension(1936, 1056));
-    driver.findElement(By.name("username")).click();
-    driver.findElement(By.name("username")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.name("password")).click();
-    driver.findElement(By.name("password")).sendKeys("aleks.artem24@gmail.com");
-    driver.findElement(By.cssSelector(".field:nth-child(3) > input")).click();
-    driver.findElement(By.linkText("Signup now")).click();
-    driver.findElement(By.name("first_name")).click();
-    driver.findElement(By.name("first_name")).click();
+    loginPage.getUserName().click();
+    loginPage.getUserName().sendKeys("aleks.artem24@gmail.com");
+    loginPage.getPassword().click();
+    loginPage.getPassword().sendKeys("aleks.artem24@gmail.com");
+    loginPage.getLoginButton().click();
+    WebDriverUtils.makeScreenShot(driver, "Login");
     WebElement logOutButton = driver.findElement(By.cssSelector(
         "body > app-root > mat-toolbar > button:nth-child(6) > span.mdc-button__label"));
     assertTrue(logOutButton.isDisplayed(), "Button is not present");
